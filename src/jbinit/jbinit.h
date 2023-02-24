@@ -23,20 +23,6 @@
 #define exit(err) msyscall(1, err)
 #define fork() msyscall(2)
 #define puts(str) printf("%s\n", str)
-#define fbi(mnt, dir)                                    \
-  do                                                     \
-  {                                                      \
-    int fbi_ret = mount("bindfs", mnt, MNT_RDONLY, dir); \
-    if (fbi_ret != 0)                                    \
-    {                                                    \
-      printf("cannot bind %s onto %s, err=%d\n", dir, mnt, fbi_ret); \
-      spin();                                            \
-    }                                                    \
-    else                                                 \
-    {                                                    \
-      printf("bound %s onto %s\n", dir, mnt);            \
-    }                                                    \
-  } while (0)
 #define RAMDISK "/dev/rmd0"
 
 typedef uint32_t kern_return_t;

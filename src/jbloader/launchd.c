@@ -1,4 +1,5 @@
 #include <jbloader.h>
+#include <common.h>
 
 int check_and_mount_dmg()
 {
@@ -28,6 +29,24 @@ int check_and_mount_loader()
     return -1;
   }
   return mount_dmg("/cores/binpack/loader.dmg", "hfs", "/cores/binpack/Applications", MNT_RDONLY, false);
+}
+
+int fix_dyld_shared_cache() {
+  if (access("/System/Library/Caches/com.apple.dyld", F_OK) != 0) {
+    int ret = mkdir("/System/Library/Caches/com.apple.dyld", 0755);
+    if (ret != 0) {
+      fprintf(stderr, "cannot mkdir /System/Library/Caches/com.apple.dyld: %d (%s)\n", errno, strerror(errno));
+      spin();
+    }
+  }
+  if (
+    access("/System/Library/Caches/com.apple.dyld", F_OK) == 0 &&
+    access("/System/Cryptexes/OS/System/Library/Caches/com.apple.dyld", F_OK) == 0 &&
+    access("/System/Library/Caches/com.apple.dyld/dyld_shared_cache_arm64", F_OK) != 0
+  ) {
+    fbi("/System/Library/Caches/com.apple.dyld", "/System/Library/Caches/com.apple.dyld/dyld_shared_cache_arm64");
+  }
+  return 0;
 }
 
 int jbloader_launchd(int argc, char **argv)
@@ -66,6 +85,8 @@ int jbloader_launchd(int argc, char **argv)
     if (mount_ret)
       spin();
     create_remove_fakefs();
+    fix_dyld_shared_cache();
+
   }
 
   // patch_dyld();

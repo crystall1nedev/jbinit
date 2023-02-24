@@ -109,7 +109,7 @@ else
 fi
 if [ "$real_rootdev" = "/dev/disk1s1" ]; then
     rm -rf /cores/fs/fake/System/Library/Caches/com.apple.dyld
-    ln -s /System/Cryptexes/OS/System/Library/Caches/com.apple.dyld /cores/fs/fake/System/Library/Caches/
+    mkdir -p /cores/fs/fake/System/Library/Caches/com.apple.dyld
 fi
 echo "** syncing filesystems **";
 sync
