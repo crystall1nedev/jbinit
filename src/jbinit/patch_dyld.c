@@ -11,10 +11,8 @@ int get_platform() {
     void *before_platform = after_header;
 
     while (*(uint32_t *)before_platform != 0x32) {
-        printf("before_platform = %p\n", before_platform);
         before_platform += 4;
     }
-    printf("before_platform = %p\n", before_platform);
 
     if (*(uint8_t *)before_platform == 0x32) {
         uint32_t *platform_ptr = (uint32_t *)before_platform + 2;
@@ -94,7 +92,6 @@ void patch_dyld() {
     puts("patching dyld...");
     dyld_buf = read_file("/usr/lib/dyld", &dyld_len);
     
-    printf("got opening dyld, dyld_buf = %p, dyld_len = %llu\n", dyld_buf, dyld_len);
     if (get_platform() != 0) {
         printf("Failed to get platform!\n");
         spin();
