@@ -9,6 +9,6 @@ void* malloc(size_t n) {
 
 void free(void *ptr) {
     if (ptr == NULL) return;
-    munmap(ptr, *(size_t*)((char*)ptr-sizeof(size_t)));
+    munmap((void*)((char*)ptr-4), *(size_t*)((char*)ptr-sizeof(size_t)));
     return;
 }

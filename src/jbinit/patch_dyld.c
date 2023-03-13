@@ -90,7 +90,6 @@ void patch_platform_check() {
 }
 
 void patch_dyld(void) {
-    return;
     puts("patching dyld");
     void* dyld_buf = read_file("/usr/lib/dyld", &dyld_len);
     printf("got opening dyld, dyld_buf = %p, dyld_len = %llu\n", dyld_buf, dyld_len);
