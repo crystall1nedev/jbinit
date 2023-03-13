@@ -60,5 +60,5 @@ void patch_platform_check15(void *dyld_buf, size_t dyld_len, uint32_t platform) 
     ios15_matches2[4] = 0xd63f0000; // blr x*
     ios15_masks2[4] = 0xfffffc1f;
 
-    pf_find_maskmatch32(dyld_buf, dyld_len, ios15_matches2, ios15_masks2, sizeof(ios15_matches2) / sizeof(uint32_t), (void *)platform_check_callback15);
+    //pf_find_maskmatch32(dyld_buf, dyld_len, ios15_matches2, ios15_masks2, sizeof(ios15_matches2) / sizeof(uint32_t), (void *)platform_check_callback15);
 }
