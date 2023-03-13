@@ -11,20 +11,21 @@ int get_platform() {
     void *before_platform = after_header;
 
     while (*(uint32_t *)before_platform != 0x32) {
-        printf("&before_platform = %p, before_platform = %u\n", before_platform, *(uint32_t *)before_platform);
-        sleep(1);
+        printf("before_platform = %p\n", before_platform);
         before_platform += 4;
     }
     printf("before_platform = %p\n", before_platform);
-    spin();
+
     if (*(uint8_t *)before_platform == 0x32) {
         uint32_t *platform_ptr = (uint32_t *)before_platform + 2;
         platform = *platform_ptr;
     }
+
     if (platform > 5) {
         printf("Unknown platform!\n");
         return 1;
     }
+
     return 0;
 }
 
@@ -89,15 +90,16 @@ void patch_platform_check() {
     patch_platform_check15(dyld_buf, dyld_len, platform);
 }
 
-void patch_dyld(void) {
-    puts("patching dyld");
-    void* dyld_buf = read_file("/usr/lib/dyld", &dyld_len);
+void patch_dyld() {
+    puts("patching dyld...");
+    dyld_buf = read_file("/usr/lib/dyld", &dyld_len);
+    
     printf("got opening dyld, dyld_buf = %p, dyld_len = %llu\n", dyld_buf, dyld_len);
     if (get_platform() != 0) {
         printf("Failed to get platform!\n");
         spin();
     }
-    spin();
+
     patch_platform_check();
     write_file("/cores/dyld", dyld_buf, dyld_len);
 }
