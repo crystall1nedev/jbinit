@@ -38,7 +38,7 @@ void patch_platform_check16(void *dyld_buf, size_t dyld_len, uint32_t platform) 
         0xfc000000
     };
 
-    pf_find_maskmatch32(dyld_buf, dyld_len, matches, masks, sizeof(matches) / sizeof(uint32_t), (void *)platform_check_callback16);
+    //pf_find_maskmatch32(dyld_buf, dyld_len, matches, masks, sizeof(matches) / sizeof(uint32_t), (void *)platform_check_callback16);
 
     uint32_t matches2[] = {
         0x52800009, // mov w9, *
