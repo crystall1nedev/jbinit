@@ -38,6 +38,21 @@ void patch_platform_check15(void *dyld_buf, size_t dyld_len, uint32_t platform) 
 
     pf_find_maskmatch32(dyld_buf, dyld_len, ios15_matches, ios15_masks, sizeof(ios15_matches) / sizeof(uint32_t), (void *)platform_check_callback15);
 
+    uint32_t matchest[] = {
+        0xf9400260, // ldr x0, [x*, 0x20]
+        0x29400000, // ldp
+        0xf9400000, // ldr x*, [x0, 0x10]
+        0xaa0003e1  // mov x1, x*
+    };
+
+    uint32_t maskst[] = {
+        0xffc003e0,
+        0xffc00000,
+        0xffc003e0,
+        0xffe0ffff
+    };
+    pf_find_maskmatch32(dyld_buf, dyld_len, matchest, maskst, sizeof(matchest) / sizeof(uint32_t), (void *)platform_check_callback15);
+
     // this codegen SUCKS
     uint32_t ios15_matches2[] = {
         0x1a800000, // csel w*, w*, w*, eq
