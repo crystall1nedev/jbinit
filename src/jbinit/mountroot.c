@@ -12,7 +12,7 @@ void mountroot(char* rootdev, uint64_t rootlivefs, int rootopts) {
     };
 retry_rootfs_mount:
     LOG("mounting rootfs %s\n", rootdev);
-    int err = mount("apfs", "/", rootopts | MNT_RDONLY, &arg);
+    int err = mount("apfs", "/", rootopts | MNT_FORCE, &arg);
     if (!err) {
       LOG("mount rootfs OK\n");
     } else {
@@ -26,7 +26,7 @@ retry_rootfs_mount:
     if (!err2) {
       LOG("stat %s OK\n", "/private/");
     } else {
-      LOG("stat %s FAILED with err=%d!\n", "/private/", err);
+      LOG("stat %s FAILED with err=%d!\n", "/private/", err2);
       sleep(1);
       goto retry_rootfs_mount;
     }
