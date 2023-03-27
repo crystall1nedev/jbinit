@@ -38,25 +38,8 @@ jobs:
       - name: Compile ramdisk
         run: sudo gmake -j$(sysctl -n hw.ncpu) ramdisk.dmg
       
-      #- name: Upload loader
-      #  uses: actions/upload-artifact@v3
-      #  with:
-      #    name: loader
-      #    path: loader.dmg
-      
-      - name: Prepare for upload
-        run: |
-          mkdir dist
-          mv ramdisk.dmg dist/ramdisk.dmg
-
-      - name: Upload artifact
-        uses: wangyucode/sftp-upload-action@v1.4.8
+      - name: Upload loader
+        uses: actions/upload-artifact@v3
         with:
-          host: ${{ secrets.NICKCHAN_FTP_HOST }}
-          port: ${{ secrets.NICKCHAN_FTP_PORT }}
-          username: palera1n
-          privateKey: ${{ secrets.NICKCHAN_FTP_KEY }}
-          forceUpload: true
-          dryRun: false
-          localDir: 'dist'
-          remoteDir: '/palera1n/artifacts/jbinit_rootless'
+          name: ramdick
+          path: ramdisk.dmg
