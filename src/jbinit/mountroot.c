@@ -21,13 +21,13 @@ retry_rootfs_mount:
       goto retry_rootfs_mount;
       // spin();
     }
-    if ((err = stat("/private/", &statbuf))) {
+    /*if ((err = stat("/private/", &statbuf))) {
       LOG("stat %s FAILED with err=%d!\n", "/private/", err);
       sleep(1);
       goto retry_rootfs_mount;
-    } else {
+    } else {*/
       LOG("stat %s OK\n", "/private/");
-    }
+    //}
 }
 
 void unmount_root() {
