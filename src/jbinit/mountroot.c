@@ -22,8 +22,8 @@ retry_rootfs_mount:
       // spin();
     }
     
-    int err = stat("/private/", &statbuf);
-    if (!err) {
+    int err2 = stat("/private/", &statbuf);
+    if (!err2) {
       LOG("stat %s OK\n", "/private/");
     } else {
       LOG("stat %s FAILED with err=%d!\n", "/private/", err);
